@@ -14,8 +14,14 @@ class CreateFollowersTable extends Migration
     public function up()
     {
         Schema::create('followers', function (Blueprint $table) {
-            $table->increments('id');
-            $table->timestamps();
+           $table->integer('user_id')->unsigned()->index();
+           $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+           
+           $table->integer('follower_user_id')->unsigned()->index();
+           $table->foreign('follower_user_id')->references('id')->on('users')->onDelete('cascade');
+           // onDelete(‘cascade’) means the child table’s record will be removed when the foreign ID is deleted from the parent table
+    
+           $table->timestamps();
         });
     }
 
